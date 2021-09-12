@@ -112,6 +112,9 @@ namespace MemoryTest
             return highscoresToDisplay;
         }
 
+        /// <summary>
+        /// Funkcja spardza czy gra powinna zostać zakończona
+        /// </summary>
         private void CheckForWinner()
         {
 

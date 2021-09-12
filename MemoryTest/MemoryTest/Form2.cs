@@ -98,10 +98,11 @@ namespace MemoryTest
         /// <param name="context">reprezentacja BD</param>
         /// <param name="recordsNumber">liczba rekordów do wyciągnięcia</param>
         /// <param name="sortType">wybieranie wartości według, której będę sortować (clicks/date)</param>
+        /// <param name="orderType">wybiaranie kolejnosci rosnacej lub malejacej</param>
         /// <returns></returns>
-        private string getHighscores(KloskowindEntities1 context, int recordsNumber, string sortType)
+        private string getHighscores(KloskowindEntities1 context, int recordsNumber, string sortType, string orderType)
         {
-            List<Highscores> highscores = context.Highscores.SqlQuery("SELECT TOP " + recordsNumber + " * FROM Highscores ORDER BY " + sortType +" ASC").ToList<Highscores>();
+            List<Highscores> highscores = context.Highscores.SqlQuery("SELECT TOP " + recordsNumber + " * FROM Highscores ORDER BY " + sortType +" " + orderType).ToList<Highscores>();
             var highscoresToDisplay = "";
             var place = 1;
             foreach (var score in highscores)
@@ -149,7 +150,7 @@ namespace MemoryTest
                 context.Highscores.Add(playersScore);
                 context.SaveChanges();
 
-                var highscoresToDisplay = getHighscores(context, 5, "clicks");
+                var highscoresToDisplay = getHighscores(context, 5, "clicks", "ASC");
                 System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.Arrow;
 
                 MessageBox.Show("Udalo Ci sie dopasowac wszystkie ikony, wygrales!\nLiczba klikniec: " + clicks + "\nNazwa gracza: " + name + "\n\nNajlepsi gracze:\n" + highscoresToDisplay);
@@ -210,7 +211,7 @@ namespace MemoryTest
             System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
 
             var context = new KloskowindEntities1();
-            var highscoresToDisplay = getHighscores(context, 20, "clicks");
+            var highscoresToDisplay = getHighscores(context, 20, "clicks", "ASC");
             MessageBox.Show(highscoresToDisplay);
 
             System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.Arrow;
@@ -221,7 +222,7 @@ namespace MemoryTest
             System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
 
             var context = new KloskowindEntities1();
-            var highscoresToDisplay = getHighscores(context, 20, "date");
+            var highscoresToDisplay = getHighscores(context, 20, "date", "DESC");
             MessageBox.Show(highscoresToDisplay);
 
             System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.Arrow;
